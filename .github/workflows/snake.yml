@@ -31,7 +31,7 @@ jobs:
             dist/github-contribution-grid-snake.svg
             dist/github-contribution-grid-snake-dark.svg?palette=github-dark
 
-      - name: Set animation to a five-minute cycle
+      - name: Set animation to a two-and-a-half-minute cycle
         shell: python
         run: |
           from pathlib import Path
@@ -39,7 +39,7 @@ jobs:
 
           duration_pattern = re.compile(r"(\d+)ms")
           svg_paths = sorted(Path("dist").glob("*.svg"))
-          target_duration_ms = 5 * 60 * 1000
+          target_duration_ms = 150 * 1000
 
           if not svg_paths:
               raise RuntimeError("No generated SVG files found")
