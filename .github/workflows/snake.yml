@@ -31,32 +31,6 @@ jobs:
             dist/github-contribution-grid-snake.svg
             dist/github-contribution-grid-snake-dark.svg?palette=github-dark
 
-      - name: Set animation to a two-and-a-half-minute cycle
-        shell: python
-        run: |
-          from pathlib import Path
-          import re
-
-          duration_pattern = re.compile(r"(\d+)ms")
-          svg_paths = sorted(Path("dist").glob("*.svg"))
-          target_duration_ms = 150 * 1000
-
-          if not svg_paths:
-              raise RuntimeError("No generated SVG files found")
-
-          for svg_path in svg_paths:
-              source = svg_path.read_text()
-              slowed, replacements = duration_pattern.subn(
-                  f"{target_duration_ms}ms",
-                  source,
-              )
-
-              if replacements == 0:
-                  raise RuntimeError(f"No animation durations found in {svg_path}")
-
-              svg_path.write_text(slowed)
-              print(f"Slowed {replacements} durations in {svg_path}")
-
       - name: Publish contribution snake to output branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
